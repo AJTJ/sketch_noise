@@ -1,5 +1,6 @@
 use nannou::noise::*;
 use nannou::prelude::*;
+use std::path::Path;
 
 const WIDTH: u32 = 1250;
 const HEIGHT: u32 = 650;
@@ -106,6 +107,20 @@ fn view(app: &App, model: &Model, frame: Frame) {
     }
 
     draw.to_frame(app, &frame).unwrap();
+
+    // CAPTURE FRAME
+    // let file_path = captured_frame_path(app, &frame);
+    // app.main_window().capture_frame(file_path);
+}
+
+fn captured_frame_path(app: &App, frame: &Frame) -> std::path::PathBuf {
+    // capture all the frames to a directory outside of the current crate
+    Path::new("../frames_nannou")
+        .join(app.exe_name().unwrap())
+        // Name each file after the number of the frame.
+        .join(format!("{:03}", frame.nth()))
+        // The extension will be PNG. We also support tiff, bmp, gif, jpeg, webp and some others.
+        .with_extension("png")
 }
 
 // DRAWING A CIRCLE OF CIRCLES
